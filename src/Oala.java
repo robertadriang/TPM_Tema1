@@ -7,6 +7,7 @@ public class Oala {
     int[] label;
     boolean[] flag;
     static int nr_mancat[];
+    int[] chemat;
 
     public Oala(int maxim, int nr_salbatici, int[] nr_mancat) {
         System.out.println("S-a initializat oala!");
@@ -16,18 +17,21 @@ public class Oala {
         this.label = new int[this.nr_salbatici];
         this.flag = new boolean[this.nr_salbatici];
         this.nr_mancat=nr_mancat;
+        this.chemat=new int[this.nr_salbatici];
     }
 
     void mananca(int id) {
         curent--;
-        //System.out.println("Salbaticul "+id + " a mancat! Ramas in oala: " + curent);
+        System.out.println("Salbaticul "+id + " a mancat! Ramas in oala: " + curent);
     }
 
     void reumple() {
         curent = maxim;
-        System.out.println("S-a umplut oala!");
+       System.out.println("S-a umplut oala!");
         System.out.println("Label "+Arrays.toString(label));
         System.out.println(Arrays.toString(nr_mancat));
+        System.out.println(Arrays.toString(this.chemat));
+
     }
 
     boolean isFirstBigger(int i, int j) {
@@ -67,5 +71,7 @@ public class Oala {
         flag[id]=false;
     }
 
-
+    public int getCurent() {
+        return curent;
+    }
 }

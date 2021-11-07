@@ -14,15 +14,17 @@ public class Pregatar{
         this.flag = new boolean[this.nr_salbatici];
     }
 
-    public void bagaMancareLaFlamanzi(int id_salbatic) {
-        //System.out.println("Scarlatescu a fost chemat de "+id_salbatic+" sa umple oala!");
+    public void bagaMancareLaFlamanzi(int id_salbatic,int label_salbatic_care_cheama) {
+        System.out.println("Scarlatescu a fost chemat de "+id_salbatic+" sa umple oala!");
+        oala.chemat[id_salbatic-1]++;
         oala.lock(id);
-        if(oala.curent==0){
+        if(oala.getCurent()==0){
             oala.reumple();
         }
         else{
             System.out.println("scarlatescu vede ca nu-i goala oala");
         }
+        label[id_salbatic]=label_salbatic_care_cheama;
         oala.unlock(id);
 
     }

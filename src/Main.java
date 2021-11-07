@@ -24,7 +24,7 @@ public class Main {
 
         int []nr_mancat=new int[NUMAR_THREADS];
 
-        Oala oala=new Oala(1,NUMAR_THREADS,nr_mancat);
+        Oala oala=new Oala(2,NUMAR_THREADS,nr_mancat);
 
         var scarlatescu=new Pregatar(oala,0,NUMAR_THREADS);
 

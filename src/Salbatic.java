@@ -17,11 +17,11 @@ public class Salbatic extends Thread {
     public void run(){
         while(true){
             oala.lock(id);
-            if(oala.curent==0){
+            if(oala.getCurent()==0){
                 oala.unlock(id);
                 //System.out.println("Salbaticul "+id+" da drumu la oala si il cheama pe scarlatescu sa umple oala!");
                 Salbatic.scarlatescu.lock(id);
-                Salbatic.scarlatescu.bagaMancareLaFlamanzi(id);
+                Salbatic.scarlatescu.bagaMancareLaFlamanzi(id,oala.label[id]);
                 Salbatic.scarlatescu.unlock(id);
                 //oala.lock(id);
                 // Wer mancare
@@ -29,6 +29,11 @@ public class Salbatic extends Thread {
             }
             oala.mananca(id);
             nr_mancat[id-1]++;
+            if(oala.getCurent()<0){
+                System.out.println("Ion buleala"+oala.getCurent());
+                System.out.println("Label "+Arrays.toString(oala.label));
+                System.out.println(Arrays.toString(nr_mancat));
+                  }
             oala.unlock(id);
         }
     }

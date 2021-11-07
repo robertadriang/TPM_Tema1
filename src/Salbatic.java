@@ -9,7 +9,7 @@ public class Salbatic extends Thread {
         this.oala = oala;
         this.id=id;
         Salbatic.scarlatescu= scarlatescu;
-        this.nr_mancat=nr_mancat;
+        Salbatic.nr_mancat = nr_mancat;
 
     }
 
@@ -35,6 +35,7 @@ public class Salbatic extends Thread {
                 System.out.println(Arrays.toString(nr_mancat));
                   }
             oala.unlock(id);
+            break;
         }
     }
 }

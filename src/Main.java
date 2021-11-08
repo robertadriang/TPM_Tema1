@@ -1,3 +1,7 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 //#3. Consideram urmatoarea problema: Un trib de salbatici mananca dintr-o singura oala mare ce are o capacitate de N portii.
 // Cand un membru al tribului mananca, va lua o portie din oala daca oala are cel putin o portie disponibila.
 // Daca oala este goala, membrul de trib va ordona bucatarului sa reumple oala si va astepta pana ce aceasta este din nou complet plina.
@@ -19,19 +23,21 @@
 //   Nu este permisa utilizarea in implementarea solutiei a tipurilor atomice din Java.
 //   Nu este permisa utilizarea in implementarea solutiei pentru punctul b) a mecanismelor din Java care ofera implicit garantii de fairness (ex., utilizarea unei instante Semaphore cu suport de fairness ce se poate initializa prin constructor).
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
-        int NUMAR_THREADS = 3;
+    public static void main(String[] args) throws InterruptedException, IOException {
+        int NUMAR_THREADS = 5;
 
-        int []nr_mancat=new int[NUMAR_THREADS];
+        PrintWriter out = new PrintWriter(new FileWriter("time till one eats.txt", true));
+        int []nr_mancat=new int[NUMAR_THREADS]; // Retine de cate ori a mancat fiecare salbatic
 
-        Oala oala=new Oala(1,NUMAR_THREADS,nr_mancat);
-
+        Oala oala=new Oala(2,NUMAR_THREADS,nr_mancat, out);
         var scarlatescu=new Pregatar(oala,0,NUMAR_THREADS);
-
         Thread[] salbatici = new Thread[NUMAR_THREADS];
+
         for(int i = 0; i < NUMAR_THREADS; i++){
             salbatici[i] = new Salbatic(oala, scarlatescu, i + 1, nr_mancat);
         }
+
+        Oala.startTime = System.nanoTime();
 
         for(int i = 0; i < NUMAR_THREADS; i++){
             salbatici[i].start();
@@ -40,5 +46,9 @@ public class Main {
             salbatici[i].join();
         }
 
+        long duration = (System.nanoTime() - Oala.startTime)/1000000;  //divide by 1000000 to get milliseconds.
+        out.println(duration);
+        out.flush();
+        System.exit(2);
     }
 }

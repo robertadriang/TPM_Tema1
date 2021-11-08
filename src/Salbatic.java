@@ -9,27 +9,34 @@ public class Salbatic extends Thread {
         this.oala = oala;
         this.id=id;
         Salbatic.scarlatescu= scarlatescu;
-        this.nr_mancat=nr_mancat;
+        Salbatic.nr_mancat = nr_mancat;
 
     }
 
     @Override
     public void run(){
+        int chemat_bucatar=0;
         while(true){
-            oala.lock(id);
-            if(oala.curent==0){
-                oala.unlock(id);
+            if(chemat_bucatar==1){
+                chemat_bucatar=0;
+                oala.lock_without_label(id);
+            }else{
+                oala.lock(id);// Blocheaza accesul asupra oalei
+            }
+            if(oala.getCurent()==0){ // Oala este goala
+                oala.unlock(id); // Deblocheaza accesul asupra oalei
                 //System.out.println("Salbaticul "+id+" da drumu la oala si il cheama pe scarlatescu sa umple oala!");
-                Salbatic.scarlatescu.lock(id);
-                Salbatic.scarlatescu.bagaMancareLaFlamanzi(id);
-                Salbatic.scarlatescu.unlock(id);
+                Salbatic.scarlatescu.lock(id); // Blocheaza accesul asupra bucatarului
+                Salbatic.scarlatescu.bagaMancare(id,oala.label[id]);
+                Salbatic.scarlatescu.unlock(id); // Deblocheaza accesul asupra bucatarului
                 //oala.lock(id);
-                // Wer mancare
+                chemat_bucatar=1;
                 continue;
             }
             oala.mananca(id);
             nr_mancat[id-1]++;
-            oala.unlock(id);
+            oala.unlock(id); // Deblocheaza accesul asupra oalei
+            //break; // Trebuie decomentat pt subpunctul A
         }
     }
 }

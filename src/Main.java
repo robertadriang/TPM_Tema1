@@ -24,25 +24,28 @@ import java.io.PrintWriter;
 //   Nu este permisa utilizarea in implementarea solutiei pentru punctul b) a mecanismelor din Java care ofera implicit garantii de fairness (ex., utilizarea unei instante Semaphore cu suport de fairness ce se poate initializa prin constructor).
 public class Main {
     public static void main(String[] args) throws InterruptedException, IOException {
-        int NUMAR_THREADS = 10;
+        int NUMAR_THREADS = 5;
+
         PrintWriter out = new PrintWriter(new FileWriter("time till one eats.txt", true));
-        int []nr_mancat=new int[NUMAR_THREADS];
+        int []nr_mancat=new int[NUMAR_THREADS]; // Retine de cate ori a mancat fiecare salbatic
 
         Oala oala=new Oala(2,NUMAR_THREADS,nr_mancat, out);
-
         var scarlatescu=new Pregatar(oala,0,NUMAR_THREADS);
-
         Thread[] salbatici = new Thread[NUMAR_THREADS];
+
         for(int i = 0; i < NUMAR_THREADS; i++){
             salbatici[i] = new Salbatic(oala, scarlatescu, i + 1, nr_mancat);
         }
+
         Oala.startTime = System.nanoTime();
+
         for(int i = 0; i < NUMAR_THREADS; i++){
             salbatici[i].start();
         }
         for(int i = 0; i < NUMAR_THREADS; i++){
             salbatici[i].join();
         }
+
         long duration = (System.nanoTime() - Oala.startTime)/1000000;  //divide by 1000000 to get milliseconds.
         out.println(duration);
         out.flush();
